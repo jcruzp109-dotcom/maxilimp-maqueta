@@ -1,0 +1,11 @@
+MAQUETA MAXILIMP — maxilimp.antoniopompa.com (privada con Cloudflare Access)
+
+Estructura
+  wrangler.jsonc   Configuración de Cloudflare (dominio, sin workers.dev).
+  sitio/           TODO lo que se publica. La maqueta va aquí (index.html, css/, js/, imagenes/...).
+  sitio/_headers   Pide a los buscadores no indexar.
+  sitio/robots.txt Bloquea buscadores.
+
+Reglas para que después se mude fácil al dominio de Maxilimp
+  - Usar rutas que empiecen con "/" (ej. /css/estilos.css) o relativas; nunca escribir "antoniopompa.com" dentro de la maqueta.
+  - Al pasar a producción: cambiar el dominio en wrangler.jsonc, quitar _headers y robots.txt, y quitar <meta name="robots">.

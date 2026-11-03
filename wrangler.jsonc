@@ -1,0 +1,16 @@
+{
+  // Maqueta privada de Maxilimp. Solo archivos estáticos (no hace falta worker.js).
+  "name": "maxilimp-maqueta",
+  "compatibility_date": "2026-07-24",
+  "assets": {
+    "directory": "./sitio"
+  },
+  // Sólo se publica en maxilimp.antoniopompa.com, que está protegido con Cloudflare Access.
+  "routes": [
+    { "pattern": "maxilimp.antoniopompa.com", "custom_domain": true }
+  ],
+  // Se apagan las direcciones automáticas *.workers.dev y de vista previa,
+  // porque esas NO pasan por Access y dejarían la maqueta pública.
+  "workers_dev": false,
+  "preview_urls": false
+}
