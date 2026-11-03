@@ -1,0 +1,8 @@
+Imágenes de ejemplo para la maqueta (se reemplazan por fotos reales de Maxilimp).
+Todas son de Pexels (licencia libre: https://www.pexels.com/license/). Número de foto en pexels.com/photo/<id>:
+hero-productos 3177257 · hero-trapeado 6197106 · hero-bodega 17229385
+div-limpieza 10558189 · div-papeleria 7718714 · div-proteccion 4805958 · div-serigrafia 3966277
+franja-almacen 37912780 · historia-formulacion 3735700 · calidad-laboratorio 11703173
+prod-cloro 12997255 · prod-desengrasante 4239104 · prod-limpia-pisos 5591908
+sector-escuelas 36159720 · sector-hogar 6301168 · sector-automotriz 20051469 · sector-hospitales 33812023 · sector-oficinas 36631699
+bodega-1 14688882 · bodega-2 13532504 · entrega 4487513

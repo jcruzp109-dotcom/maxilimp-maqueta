@@ -1,7 +1,8 @@
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Menú
+  // Menú (celular)
+  const top = document.querySelector('[data-top]');
   const button = document.querySelector('[data-menu]');
   const menu = document.getElementById('menu');
   const setMenu = open => {
@@ -12,64 +13,53 @@
   button.addEventListener('click', () => setMenu(button.getAttribute('aria-expanded') !== 'true'));
   menu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
-  document.addEventListener('click', e => { if (!e.target.closest('[data-top]')) setMenu(false); });
 
-  // Portada: al bajar, los elementos flotantes se juntan hacia la foto de la bodega.
-  const hero = document.querySelector('[data-hero]');
-  const store = hero?.querySelector('.hero-store');
-  const items = [...(hero?.querySelectorAll('[data-fl]') || [])];
-  if (hero && store && items.length && !reduce) {
-    let vectors = [], heroH = 1, ticking = false, visible = true;
-    const measure = () => {
-      const scroll = scrollY;
-      items.forEach(el => { el.style.setProperty('--x', '0px'); el.style.setProperty('--y', '0px'); el.style.setProperty('--s', '1'); });
-      const s = store.getBoundingClientRect();
-      const target = { x: s.left + s.width / 2, y: s.top + scroll + s.height * .3 };
-      vectors = items.map(el => {
-        const r = el.getBoundingClientRect();
-        const spin = parseFloat(el.dataset.fl.split(',')[2]) || 0;
-        return { dx: target.x - (r.left + r.width / 2), dy: target.y - (r.top + scroll + r.height / 2), spin };
-      });
-      heroH = hero.offsetHeight;
-      update();
-    };
-    const update = () => {
-      ticking = false;
-      if (!visible) return;
-      const p = Math.min(1, Math.max(0, scrollY / (heroH * .75)));
-      const e = p * p * (3 - 2 * p);
-      items.forEach((el, i) => {
-        const v = vectors[i]; if (!v) return;
-        el.style.setProperty('--x', `${(v.dx * e * .8).toFixed(1)}px`);
-        el.style.setProperty('--y', `${(v.dy * e * .8).toFixed(1)}px`);
-        el.style.setProperty('--s', (1 - e * .45).toFixed(3));
-        el.style.rotate = `${(v.spin * e).toFixed(2)}deg`;
-        el.style.opacity = (1 - Math.max(0, e - .6) * 2.2).toFixed(3);
-      });
-    };
-    new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) update(); }).observe(hero);
-    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-    addEventListener('resize', measure);
-    addEventListener('load', measure);
-    measure();
-  }
+  // Desplazamiento: línea bajo el encabezado y parallax suave
+  const bubbles = [...document.querySelectorAll('[data-depth]')];
+  const strip = document.querySelector('[data-parallax]');
+  let ticking = false;
+  const onScroll = () => {
+    ticking = false;
+    const y = scrollY;
+    top.classList.toggle('is-scrolled', y > 8);
+    if (reduce) return;
+    if (y < innerHeight * 1.2) bubbles.forEach(b => b.style.setProperty('--py', `${(-y * b.dataset.depth).toFixed(1)}px`));
+    if (strip) {
+      const r = strip.parentElement.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < innerHeight) {
+        const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+        strip.style.transform = `translate3d(0,${(p * -60).toFixed(1)}px,0)`;
+      }
+    }
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
 
-  // Carrusel de productos
-  const track = document.querySelector('[data-slides]');
-  if (track) {
-    const prev = document.querySelector('[data-prev]');
-    const next = document.querySelector('[data-next]');
-    const step = () => (track.querySelector('.slide')?.offsetWidth || 300) + 16;
-    const sync = () => {
-      prev.disabled = track.scrollLeft < 4;
-      next.disabled = track.scrollLeft + track.clientWidth > track.scrollWidth - 4;
-    };
-    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: reduce ? 'auto' : 'smooth' }));
-    next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: reduce ? 'auto' : 'smooth' }));
-    track.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
-    addEventListener('resize', sync);
-    sync();
-  }
+  // Formulario de cotización (maqueta): arma un correo con los datos.
+  const form = document.querySelector('[data-form]');
+  const note = document.querySelector('[data-form-note]');
+  form?.addEventListener('submit', e => {
+    e.preventDefault();
+    let ok = true;
+    form.querySelectorAll('[required]').forEach(input => {
+      const bad = !input.value.trim();
+      input.setAttribute('aria-invalid', String(bad));
+      if (bad && ok) { input.focus(); ok = false; }
+    });
+    if (!ok) { note.textContent = 'Escribe tu nombre y teléfono para poder contactarte.'; note.classList.remove('is-ok'); return; }
+    const d = new FormData(form);
+    const body = [
+      `Nombre: ${d.get('nombre')}`,
+      `Empresa: ${d.get('empresa') || '—'}`,
+      `Teléfono: ${d.get('telefono')}`,
+      `Sector: ${d.get('sector')}`,
+      `Interés: ${d.getAll('interes').join(', ') || '—'}`,
+      '', d.get('mensaje') || ''
+    ].join('\n');
+    location.href = `mailto:angelica_maxilimp@hotmail.com?subject=${encodeURIComponent('Solicitud de cotización')}&body=${encodeURIComponent(body)}`;
+    note.textContent = 'Listo. Se abrió tu correo con la solicitud para enviarla.';
+    note.classList.add('is-ok');
+  });
 
   document.querySelectorAll('[data-year]').forEach(el => { el.textContent = new Date().getFullYear(); });
 })();
