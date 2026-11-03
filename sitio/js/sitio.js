@@ -57,7 +57,7 @@
       '', d.get('mensaje') || ''
     ].join('\n');
     location.href = `mailto:angelica_maxilimp@hotmail.com?subject=${encodeURIComponent('Solicitud de cotización')}&body=${encodeURIComponent(body)}`;
-    note.textContent = 'Listo. Se abrió tu correo con la solicitud para enviarla.';
+    note.textContent = 'Se abrió tu correo con la solicitud lista para enviar.';
     note.classList.add('is-ok');
   });
 
