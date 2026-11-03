@@ -109,20 +109,23 @@ p{text-wrap:pretty}
 .facts dd{margin-top:6px;font-size:14px;font-weight:600;font-stretch:88%;color:var(--muted)}
 
 .bubbles{position:relative;aspect-ratio:1/1;width:100%;max-width:580px;justify-self:end}
-.bubbles::before{content:"";position:absolute;inset:6%;border-radius:50%;background:radial-gradient(circle at 40% 40%,var(--aqua-soft),rgba(217,241,252,0) 70%)}
-.bub{position:absolute;border-radius:50%;overflow:hidden;background:var(--aqua-soft);
-  box-shadow:0 0 0 8px #fff,0 0 0 9.5px rgba(34,184,240,.35),0 30px 60px -30px rgba(11,42,111,.55)}
-.bub img{width:100%;height:100%;object-fit:cover}
-.bub-1{width:66%;aspect-ratio:1;left:4%;top:16%}
-.bub-2{box-shadow:0 0 0 8px #fff,0 0 0 9.5px rgba(147,192,47,.75),0 30px 60px -30px rgba(11,42,111,.55)}
-.bub-3{box-shadow:0 0 0 8px #fff,0 0 0 9.5px rgba(253,214,42,.9),0 30px 60px -30px rgba(11,42,111,.55)}
-.bub-2{width:38%;aspect-ratio:1;right:0;top:0}
-.bub-3{width:34%;aspect-ratio:1;right:6%;bottom:2%}
-.dot{position:absolute;border-radius:50%;border:2px solid var(--aqua)}
-.dot-1{width:22px;height:22px;left:2%;top:8%}
-.dot-2{width:12px;height:12px;left:16%;top:2%;background:var(--yellow);border:0}
-.dot-3{width:34px;height:34px;right:42%;bottom:4%;border-color:var(--lime)}
-.dot-4{width:14px;height:14px;right:36%;top:6%;border-color:var(--orange)}
+.bub{position:absolute;border-radius:50%;overflow:hidden;isolation:isolate}
+.bub svg{position:absolute;height:auto;transform-origin:50% 50%}
+/* Los íconos salen de la orilla del círculo y van inclinados */
+.bub-1{width:56%;aspect-ratio:1;left:4%;top:24%;background:var(--vivid)}
+.bub-1 svg{width:66%;left:17%;bottom:-14%;transform:rotate(-10deg)}
+.bub-1 .cut{fill:var(--vivid)}
+.bub-2{width:40%;aspect-ratio:1;right:2%;top:2%;background:var(--aqua)}
+.bub-2 svg{width:66%;left:18%;top:-12%;transform:rotate(20deg)}
+.bub-2 .cut-line{fill:none;stroke:var(--aqua);stroke-width:3;stroke-linecap:round}
+.bub-3{width:38%;aspect-ratio:1;right:6%;bottom:4%;background:var(--green)}
+.bub-3 svg{width:62%;left:16%;bottom:-12%;transform:rotate(-14deg)}
+.dot{position:absolute;border-radius:50%}
+.dot-1{width:26px;height:26px;left:4%;top:8%;border:3px solid var(--aqua)}
+.dot-2{width:16px;height:16px;left:22%;top:4%;background:var(--red)}
+.dot-3{width:44px;height:44px;right:40%;bottom:2%;background:var(--orange)}
+.dot-4{width:18px;height:18px;right:44%;top:10%;border:3px solid var(--lime)}
+.dot-5{width:12px;height:12px;right:2%;top:52%;background:var(--navy)}
 .bub,.dot{will-change:transform;transform:translate3d(0,var(--py,0),0)}
 @media (prefers-reduced-motion:no-preference){
   .bub-1{animation:float 9s ease-in-out infinite}
