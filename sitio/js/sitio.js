@@ -61,5 +61,69 @@
     note.classList.add('is-ok');
   });
 
+  // ---- Animaciones de entrada ----
+  if (!reduce && 'IntersectionObserver' in window) {
+    const groups = {
+      rv: ['.head h2', '.head p', '.statement-in p', '.product h3', '.product > p', '.product .tags', '.more',
+           '.about-text h2', '.story li', '.quality h2', '.chain li', '.place-text > *', '.allies-head > *', '.logos li',
+           '.contact-text > h2', '.contact-text > p', '.contact-list li', '.form', '.foot-in > div'],
+      'rv-img': ['.tile', '.product figure', '.sector-row li', '.about-img', '.quality-img', '.place-a', '.place-b', '.contact-img']
+    };
+    const els = [];
+    document.querySelectorAll('.head h2, .about-text h2, .quality h2, .place-text h2, .allies-head h2, .contact-text h2').forEach(el => el.classList.add('rv-blur'));
+    Object.entries(groups).forEach(([cls, sels]) => {
+      document.querySelectorAll(sels.join(',')).forEach(el => { el.classList.add(cls); els.push(el); });
+    });
+    // Escalonado: cada elemento espera un poco más que su hermano anterior.
+    const seen = new Map();
+    els.forEach(el => {
+      const key = el.parentElement;
+      const n = seen.get(key) || 0; seen.set(key, n + 1);
+      el.style.setProperty('--d', `${Math.min(n, 8) * 0.09}s`);
+    });
+    // Frase destacada palabra por palabra.
+    const quote = document.querySelector('.quote');
+    const qp = quote?.querySelector('p');
+    if (qp) {
+      qp.setAttribute('aria-label', qp.textContent);
+      qp.innerHTML = qp.textContent.trim().split(/\s+/).map((w, i) => `<span class="w" style="--i:${i}" aria-hidden="true">${w}</span>`).join(' ');
+    }
+    // Se revisa la posición en cada scroll (getBoundingClientRect no se confunde con
+    // elementos ocultos y no se salta nada aunque el scroll sea muy rápido).
+    let pending = [...els, quote, document.querySelector('.foot')].filter(Boolean);
+    const check = () => {
+      const limit = innerHeight * 0.92;
+      pending = pending.filter(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < limit && r.bottom > -innerHeight) { el.classList.add('in'); return false; }
+        if (r.bottom <= 0) { el.classList.add('in'); return false; }
+        return true;
+      });
+      if (!pending.length) removeEventListener('scroll', onCheck);
+    };
+    let checking = false;
+    const onCheck = () => { if (!checking) { checking = true; requestAnimationFrame(() => { checking = false; check(); }); } };
+    addEventListener('scroll', onCheck, { passive: true });
+    addEventListener('resize', onCheck);
+    requestAnimationFrame(check);
+
+    // Pausar los íconos animados cuando la portada sale de la pantalla.
+    const hero = document.querySelector('.hero');
+    if (hero) new IntersectionObserver(([e]) => hero.classList.toggle('is-off', !e.isIntersecting)).observe(hero);
+
+    // Contadores de la portada.
+    document.querySelectorAll('[data-count]').forEach((el, i) => {
+      const end = +el.dataset.count, pre = el.dataset.prefix || '';
+      el.textContent = pre + '0';
+      const start = performance.now() + 600 + i * 150, dur = 1400;
+      const tick = now => {
+        const p = Math.min(1, Math.max(0, (now - start) / dur));
+        el.textContent = pre + Math.round(end * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
   document.querySelectorAll('[data-year]').forEach(el => { el.textContent = new Date().getFullYear(); });
 })();
