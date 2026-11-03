@@ -188,6 +188,16 @@ section{padding:clamp(80px,10vw,136px) 0}
 .more a:hover{color:var(--blue)}
 .more .ico{width:18px;height:18px}
 
+/* Frase destacada */
+.quote{padding-top:0;text-align:center}
+.quote blockquote{margin:0 auto;max-width:980px}
+.quote-mark{width:clamp(48px,5vw,72px);height:auto;fill:var(--aqua);margin:0 auto 28px;display:block}
+.quote p{font-family:var(--title);font-weight:700;font-size:clamp(34px,5vw,72px);line-height:1.04;letter-spacing:-.025em;color:var(--navy);text-wrap:balance}
+.quote-bar{display:flex;width:180px;height:6px;margin:40px auto 0;border-radius:6px;overflow:hidden}
+.quote-bar i{flex:1}
+.quote-bar i:nth-child(1){background:var(--navy)}.quote-bar i:nth-child(2){background:var(--aqua)}.quote-bar i:nth-child(3){background:var(--red)}
+.quote-bar i:nth-child(4){background:var(--green)}.quote-bar i:nth-child(5){background:var(--yellow)}.quote-bar i:nth-child(6){background:var(--orange)}
+
 /* Sectores: tiras que se abren al pasar el cursor */
 .sectors{background:var(--lime-soft)}
 .sectors h2{color:var(--green-deep)}
@@ -240,10 +250,12 @@ section{padding:clamp(80px,10vw,136px) 0}
 
 /* Aliados */
 .allies{padding-top:0}
-.allies-head{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:36px;flex-wrap:wrap}
-.gto{display:flex;align-items:center;gap:14px;padding:10px 20px 10px 12px;border-radius:99px;background:var(--mist)}
-.gto img{width:40px}
-.gto p{font-size:15px;color:var(--ink)}
+.allies-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px 48px;margin-bottom:36px;flex-wrap:wrap}
+.allies-head p{max-width:34ch;font-size:19px;line-height:1.5;color:var(--muted)}
+.gto{display:flex;align-items:center;gap:14px;margin-top:26px}
+.gto img{width:44px}
+.gto p{margin:0;font-size:14px;line-height:1.35;color:var(--muted)}
+.gto strong{color:var(--navy);font-weight:600}
 .logos{display:grid;grid-template-columns:repeat(9,1fr);gap:10px}
 .logos li{height:96px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-md);display:grid;place-items:center;background:#fff}
 .logos img{max-height:60px;width:auto;max-width:100%;object-fit:contain}
@@ -277,6 +289,7 @@ section{padding:clamp(80px,10vw,136px) 0}
 .checks input:checked+span{background:var(--navy);border-color:var(--navy);color:#fff}
 .checks input:focus-visible+span{outline:3px solid var(--aqua);outline-offset:2px}
 .form-note{font-size:14px;color:var(--muted);text-align:center}
+.form-note:empty{display:none}
 .form-note.is-ok{color:#13814a;font-weight:600}
 
 /* Pie */
@@ -286,7 +299,7 @@ section{padding:clamp(80px,10vw,136px) 0}
 .foot-bar i{flex:1}
 .foot-bar i:nth-child(1){background:var(--navy)}.foot-bar i:nth-child(2){background:var(--aqua)}.foot-bar i:nth-child(3){background:var(--red)}
 .foot-bar i:nth-child(4){background:var(--green)}.foot-bar i:nth-child(5){background:var(--yellow)}.foot-bar i:nth-child(6){background:var(--orange)}
-.foot-brand img{width:170px}
+.foot-brand>img{width:170px}
 .foot-brand p{margin-top:16px}
 .foot h3{font-size:15px;font-weight:600;font-stretch:92%;color:var(--navy);margin-bottom:12px}
 .foot a{text-decoration:none;overflow-wrap:anywhere}
