@@ -206,12 +206,13 @@ section{padding:clamp(80px,10vw,136px) 0}
 .sectors h2{color:var(--green-deep)}
 .sector-row{display:flex;gap:12px;width:min(100% - 2*var(--gutter),var(--wrap));margin-inline:auto;height:clamp(360px,36vw,460px)}
 .sector-row li{position:relative;flex:1;min-width:0;overflow:hidden;border-radius:var(--r-lg);transition:flex-grow .6s cubic-bezier(.2,.7,.2,1);isolation:isolate}
-.sector-row li:hover{flex-grow:2.2}
-.sector-row img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.sector-row li:hover{flex-grow:1.9}
+.sector-row img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.sector-row li:hover img{transform:scale(1.06)}
 .sector-row li{--tint:11,42,111}
 .sector-row li::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent 42%,rgba(var(--tint),.9))}
 .sector-row .s-yellow{--tint:150,96,0}.sector-row .s-aqua{--tint:7,104,150}.sector-row .s-blue{--tint:20,48,214}.sector-row .s-red{--tint:150,10,16}.sector-row .s-green{--tint:15,93,38}
-.sector-row span{position:absolute;left:22px;right:22px;bottom:20px;color:#fff;font-family:var(--title);font-size:22px;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.sector-row span{position:absolute;left:22px;width:170px;bottom:20px;color:#fff;font-family:var(--title);font-size:22px;font-weight:700;letter-spacing:-.01em;line-height:1.1}
 
 /* Nosotros */
 .about-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,96px);align-items:center}
@@ -443,6 +444,7 @@ section{padding:clamp(80px,10vw,136px) 0}
   /* Logos de aliados: se acercan a color al pasar el cursor */
   .logos li{transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1),filter .9s,translate .3s ease,box-shadow .3s ease,border-color .3s;transition-delay:var(--d,0s),var(--d,0s),var(--d,0s),0s,0s,0s}
   .logos li:hover{translate:0 -4px;border-color:transparent;box-shadow:0 18px 30px -18px rgba(11,42,111,.45)}
+  .js .sector-row li.rv-img{transition:opacity 1s cubic-bezier(.2,.7,.2,1) var(--d,0s),transform 1.1s cubic-bezier(.2,.7,.2,1) var(--d,0s),flex-grow .7s cubic-bezier(.2,.7,.2,1) 0s}
   .sector-row li span{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
   .sector-row li:hover span{transform:translateY(-6px)}
 }
